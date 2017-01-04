@@ -14,6 +14,7 @@ public class ListTest {
 			user.setName("name"+i);
 			users.add(user);
 		}
+		System.out.println(users.toString());
 		for(User user1:users){
 			System.out.println(user1.getAge()+"====="+user1.getName());
 		}

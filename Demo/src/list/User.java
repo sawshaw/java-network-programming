@@ -2,8 +2,19 @@ package list;
 
 public class User {
 	private int id;
-	private Integer age;
+	private int age;
 	private String name;
+	public User(){
+	}
+	public User(int id,int age,String name){
+		this.id=id;
+		this.age=age;
+		this.name=name;
+	}
+	public User(String name,int id){
+		this.id=id;
+		this.name=name;
+	}
 	public int getId() {
 		return id;
 	}
@@ -22,6 +33,10 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("User [id=").append(id).append(", age=").append(age).append(", name=").append(name).append("]");
+		return builder.toString();
+	}
 }

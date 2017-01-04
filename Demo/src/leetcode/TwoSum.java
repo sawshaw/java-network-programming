@@ -1,7 +1,7 @@
 package leetcode;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author mercy
@@ -12,18 +12,23 @@ import java.util.List;
  */
 public class TwoSum {
 	public static void main(String[] args) {
-		int[] nums={2,3,4,5,6,7,9};
+		int[] nums={2,0,4,9,5,7,10,9};
 		int target=12;
-		int[] arr=twoSum2(nums,target);
+		int[] arr=twoSum1(nums,target);
 		System.out.println(arr[0]+"--"+arr[1]);
-		List<Integer> list=twoSum3(nums,target);
-		for(Integer i:list){
-			System.out.println(i);
-		}
-		
 	}
 	public static int[] twoSum(int[] nums, int target) {
-        return new int[] {1,1};
+		Map<Integer,Integer> map=new HashMap<>();
+		for(int i=0;i<nums.length;i++){
+			map.put(nums[i], i);
+		}
+		for(int i=0;i<nums.length;i++){
+			int other=target-nums[i];
+			if(map.containsKey(other)&&map.get(other)!=i){
+				 return new int[] { i, map.get(other) };
+			}
+		}
+		throw new IllegalArgumentException("No two sum solution");
     }
 	/**
 	 * @param nums
@@ -33,7 +38,15 @@ public class TwoSum {
 	 * @author mercy
 	 */
 	public static int[] twoSum1(int[] nums, int target) {
-        return new int[] {1,1};
+		Map<Integer,Integer> map=new HashMap<>();
+		for(int i=0;i<nums.length;i++){
+			int other=target-nums[i];
+			if(map.containsKey(other)){
+				return new int[]{map.get(other),i};
+			}
+			map.put(nums[i], i);
+		}	
+		throw new IllegalArgumentException("No two sum solution");
     }
 	
 	/**
@@ -52,46 +65,6 @@ public class TwoSum {
 			}
 		}
 		throw new IllegalArgumentException("No two sum solution");
-    }
-	
-	/**
-	 * @param nums
-	 * @param target
-	 * @return
-	 * 输出多个List
-	 * @author mercy
-	 */
-	public static List<Integer> twoSum3(int[] nums, int target) {
-		List<Integer> list=new ArrayList<Integer>();
-		for(int i=0;i<nums.length;i++){
-			for(int j=i+1;j<nums.length;j++){
-				if(nums[j]==target-nums[i]){
-					list.add(i);
-					list.add(j);
-				}
-			}
-		}
-		return list;
-    }
-	
-	/**
-	 * @param nums
-	 * @param target
-	 * @return
-	 * 输出多个Map
-	 * @author mercy
-	 */
-	public static List<Integer> twoSum4(int[] nums, int target) {
-		List<Integer> list=new ArrayList<Integer>();
-		for(int i=0;i<nums.length;i++){
-			for(int j=i+1;j<nums.length;j++){
-				if(nums[j]==target-nums[i]){
-					list.add(i);
-					list.add(j);
-				}
-			}
-		}
-		return list;
     }
 
 }
