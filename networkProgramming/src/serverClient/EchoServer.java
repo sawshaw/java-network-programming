@@ -32,7 +32,7 @@ public class EchoServer {
 		try{
 			while(true){
 				socket=serverSocket.accept();
-				System.out.println("new Connecttion accept" +socket.getInetAddress()+":"+socket.getPort());
+				System.out.println("new Connecttion accept" +socket.getInetAddress()+":"+socket.getPort()+",localPort:"+socket.getLocalPort());
 				BufferedReader br=getReader(socket);
 				PrintWriter pw=getWriter(socket);
 				String msg=null;

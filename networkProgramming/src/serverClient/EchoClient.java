@@ -14,6 +14,8 @@ public class EchoClient {
 	private Socket socket;
 	public EchoClient()throws IOException{
 		socket=new Socket(host,port);
+		//获取绑定后的端口号和绑定前的端口号
+		System.out.println("new Connecttion accept" +socket.getInetAddress()+":"+socket.getPort()+",localPort:"+socket.getLocalPort());
 	}
 	private PrintWriter getWriter(Socket socket) throws IOException{
 		OutputStream socketOut=socket.getOutputStream();
