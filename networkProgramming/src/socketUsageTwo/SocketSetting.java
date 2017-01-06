@@ -15,7 +15,11 @@ public class SocketSetting {
 	public void setSocket() throws IOException{
 		socket=new Socket();
 		SocketAddress remotAddr=new InetSocketAddress("localhost", 8000);
-		socket.connect(remotAddr, 60000);//设置等待时间为一分钟
+		//计算超时时间
+		long begain =System.currentTimeMillis();
+		socket.connect(remotAddr, 60000);//设置等待时间为一分钟(等待时间过短会超时)
+		long end=System.currentTimeMillis();
+		System.out.println("连接所花时间:"+(end-begain));
 		InetAddress addr=InetAddress.getLocalHost();//获得本机IP地址
 		System.out.println(addr);
 		//设置客户端地址
