@@ -37,6 +37,14 @@ public class MailSender {
 			PrintWriter pw= getWriter(socket);
 			String localhost=InetAddress.getLocalHost().getHostName();//获取主机名
 			sendAndReceive(null, br, pw);//仅仅是为了接收服务器的响应数据
+			sendAndReceive("HELLO"+localhost,br,pw);
+			sendAndReceive("MAIL FROM:<"+msg.from+">",br,pw);
+			sendAndReceive("ACPT TO:<"+msg.to+">",br,pw);
+			sendAndReceive("DATA",br,pw);
+			pw.println(msg.data);//发送邮件内容
+			System.out.println("Clent>"+msg.data);
+			sendAndReceive(".",br,pw);//邮件发送完毕
+			sendAndReceive("QUIT",br,pw);//通信结束
 		}catch (IOException e) {
 			e.printStackTrace();
 		}finally{
