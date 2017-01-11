@@ -42,14 +42,14 @@ public class NoBlockServer {
 				SelectionKey key=null;
 				try{
 					key=(SelectionKey)it.next();
-					it.remove();
+					it.remove();//删除集合中的key
 					if(key.isAcceptable()){//是否可以接收客户端的socket连接
 						ServerSocketChannel ssc=(ServerSocketChannel)key.channel();
 						SocketChannel socketChannel=ssc.accept();
 						System.out.println("接收到的客户端连接,来自："+socketChannel.socket().getInetAddress()+":"+socketChannel.socket().getPort());
 						socketChannel.configureBlocking(false);//设置无阻塞模式
 						ByteBuffer buffer=ByteBuffer.allocate(1024);//创建一个ByteBuffer对象用于存放数据
-						socketChannel.register(selector, SelectionKey.OP_READ|SelectionKey.OP_WRITE,buffer);
+						socketChannel.register(selector, SelectionKey.OP_READ|SelectionKey.OP_WRITE,buffer);//注册事件,Selector会监控事件是否发生
 						if(key.isReadable()){//key的channel是否可读
 							receive(key);
 						}
