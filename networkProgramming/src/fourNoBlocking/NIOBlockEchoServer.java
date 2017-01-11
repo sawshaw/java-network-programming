@@ -12,12 +12,12 @@ import java.util.concurrent.Executors;
  * @author mercy
  * 用nio创建阻塞式IO服务端(当ServerSocketChannel和SocketChannel采用阻塞式IO时为了处理多个连接必须使用多线程)
  */
-public class NIOEchoServer {
+public class NIOBlockEchoServer {
 	private int port=8000;
 	private ServerSocketChannel serverSocketChannel;
 	private ExecutorService servicePool;//线程池
 	private final int poolSize=5;
-	public NIOEchoServer() throws IOException{
+	public NIOBlockEchoServer() throws IOException{
 		//返回当前电脑系统的CPU数目,CPU越多,线程池工作的数目也越多
 		servicePool=Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()*poolSize);
 		//创建对象
@@ -41,7 +41,7 @@ public class NIOEchoServer {
 		}
 	}
 	public static void main(String[] args) throws IOException {
-		new NIOEchoServer().service();
+		new NIOBlockEchoServer().service();
 	}
 
 }
