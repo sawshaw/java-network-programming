@@ -66,7 +66,7 @@ public class NoBlockClient {
 	public void send(SelectionKey key) throws IOException{
 		SocketChannel socketChannel=(SocketChannel) key.channel();
 		synchronized (sendBuffer) {
-			sendBuffer.flip();//将极限设为位置，将位置设为0
+			sendBuffer.flip();//将极限(limit)设为位置(position)，将位置设为0
 			socketChannel.write(sendBuffer);
 			sendBuffer.compact();//删除已经发送的数据
 		}

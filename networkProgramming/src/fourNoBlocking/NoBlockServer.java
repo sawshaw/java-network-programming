@@ -48,16 +48,17 @@ public class NoBlockServer {
 						SocketChannel socketChannel=ssc.accept();
 						System.out.println("接收到的客户端连接,来自："+socketChannel.socket().getInetAddress()+":"+socketChannel.socket().getPort());
 						socketChannel.configureBlocking(false);//设置无阻塞模式
-						ByteBuffer buffer=ByteBuffer.allocate(1024);//创建一个ByteBuffer对象用于存放数据
-						socketChannel.register(selector, SelectionKey.OP_READ|SelectionKey.OP_WRITE,buffer);//注册事件,Selector会监控事件是否发生
-						if(key.isReadable()){//key的channel是否可读
-							receive(key);
-						}
-						if(key.isWritable()){//key的channel是否可写
-							send(key);
-						}
+						ByteBuffer buffer=ByteBuffer.allocate(1024);//创建一个ByteBuffer对象用于存放数据(数据存放缓冲区)
+						socketChannel.register(selector,SelectionKey.OP_READ|SelectionKey.OP_WRITE,buffer);//注册事件,Selector会监控事件是否发生
+					}
+					if(key.isReadable()){//key的channel是否可读
+						receive(key);
+					}
+					if(key.isWritable()){//key的channel是否可写
+						send(key);
 					}
 				}catch(IOException e){
+					System.out.println("exception....");
 					e.printStackTrace();
 					try{
 						if(key!=null){
@@ -70,6 +71,7 @@ public class NoBlockServer {
 				}
 			}
 		}
+
 	}
 	/**
 	 * @param key
@@ -92,8 +94,8 @@ public class NoBlockServer {
 			socketChannel.write(outputBuffer);
 		}
 		ByteBuffer temp=encode(outputData);
-		buffer.position(temp.limit());//设置buffer的位置为temp的极限
-		buffer.compact();//删除已经处理的字符串
+		buffer.position(temp.limit());//设置buffer的位置：temp的极限
+		buffer.compact();//删除已经处理的字符串(删除缓冲区内从0到当前位置position的内容)
 		if(outputData.equals("bye\r\n")){
 			key.cancel();
 			socketChannel.close();
@@ -109,11 +111,11 @@ public class NoBlockServer {
 	public void receive(SelectionKey key) throws IOException{
 		ByteBuffer buffer=(ByteBuffer) key.attachment();
 		SocketChannel socketChannel=(SocketChannel) key.channel();
-		ByteBuffer readBuffer=ByteBuffer.allocate(32);//创建自定义内存的buffer
+		ByteBuffer readBuffer=ByteBuffer.allocate(1024);//创建自定义内存的buffer(存放读到的数据)
 		socketChannel.read(readBuffer);
 		readBuffer.flip();
 		buffer.limit(buffer.capacity());//设置buffer的极限为buffer的容量
-		buffer.put(readBuffer);
+		buffer.put(readBuffer);//复制到缓存区
 	}
 	public String decode(ByteBuffer buffer){//解码
 		CharBuffer charBuffer=charset.decode(buffer);
