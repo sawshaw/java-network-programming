@@ -40,9 +40,6 @@ public class EchoServer {
 				while((msg=br.readLine())!=null){
 					System.out.println(msg);
 					pw.println(echo(msg));
-					if(msg.equals("bye")){
-						break;
-					}
 				}
 			}
 		}catch(IOException e){

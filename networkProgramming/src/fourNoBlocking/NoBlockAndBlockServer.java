@@ -37,7 +37,7 @@ public class NoBlockAndBlockServer {
 			try{
 				SocketChannel socketChannel=serverSocketChannel.accept();
 				socketChannel.configureBlocking(false);//设置无阻塞模式
-				ByteBuffer buffer=ByteBuffer.allocate(1024);//创建一个ByteBuffer对象用于存放数据
+				ByteBuffer buffer=ByteBuffer.allocate(6555);//创建一个ByteBuffer对象用于存放数据
 				synchronized (gate) {
 					selector.wakeup();//唤醒阻塞在select方法上的线程
 					socketChannel.register(selector,SelectionKey.OP_READ|SelectionKey.OP_WRITE,buffer);
@@ -120,7 +120,7 @@ public class NoBlockAndBlockServer {
 	public void receive(SelectionKey key) throws IOException{
 		ByteBuffer buffer=(ByteBuffer) key.attachment();
 		SocketChannel socketChannel=(SocketChannel) key.channel();
-		ByteBuffer readBuffer=ByteBuffer.allocate(32);//创建自定义内存的buffer
+		ByteBuffer readBuffer=ByteBuffer.allocate(6555);//创建自定义内存的buffer
 		socketChannel.read(readBuffer);
 		readBuffer.flip();
 		buffer.limit(buffer.capacity());//设置buffer的极限为buffer的容量
