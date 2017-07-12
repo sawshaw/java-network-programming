@@ -48,7 +48,7 @@ public class NoBlockServer {
 						SocketChannel socketChannel=ssc.accept();
 						System.out.println("接收到的客户端连接,来自："+socketChannel.socket().getInetAddress()+":"+socketChannel.socket().getPort());
 						socketChannel.configureBlocking(false);//设置无阻塞模式
-						ByteBuffer buffer=ByteBuffer.allocate(1024);//创建一个ByteBuffer对象用于存放数据(数据存放缓冲区)
+						ByteBuffer buffer=ByteBuffer.allocate(2048);//创建一个ByteBuffer对象用于存放数据(数据存放缓冲区)
 						socketChannel.register(selector,SelectionKey.OP_READ|SelectionKey.OP_WRITE,buffer);//注册事件,Selector会监控事件是否发生
 					}
 					if(key.isReadable()){//key的channel是否可读
@@ -111,7 +111,7 @@ public class NoBlockServer {
 	public void receive(SelectionKey key) throws IOException{
 		ByteBuffer buffer=(ByteBuffer) key.attachment();
 		SocketChannel socketChannel=(SocketChannel) key.channel();
-		ByteBuffer readBuffer=ByteBuffer.allocate(1024);//创建自定义内存的buffer(存放读到的数据)
+		ByteBuffer readBuffer=ByteBuffer.allocate(2048);//创建自定义内存的buffer(存放读到的数据)
 		socketChannel.read(readBuffer);
 		readBuffer.flip();
 		buffer.limit(buffer.capacity());//设置buffer的极限为buffer的容量
