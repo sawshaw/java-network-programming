@@ -60,7 +60,7 @@ public class ThreadTest{
 	            int i = 0;
 	            byte[] b = new byte[6555];
 	            while ((i = is.read(b)) != -1) {
-	                res = new String(b, 0, i);
+	                res = new String(b, 0, i,"GBK");
 	                break;
 	            }
 	            long end = System.currentTimeMillis();
