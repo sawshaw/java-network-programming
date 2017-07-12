@@ -84,10 +84,13 @@ public class NoBlockServer {
 		SocketChannel socketChannel=(SocketChannel) key.channel();
 		buffer.flip();//把极限(limit)设为位置(position)，把位置设为0
 		String data=decode(buffer);//解码客户端发过来的数据
-		if(data.indexOf("\r\n")==-1){//不包含\r\n直接return
+		if(data.length()==0){
 			return ;
 		}
-		String outputData=data.substring(0, data.indexOf("\n")+1);
+//		if(data.indexOf("\r\n")==-1){//不包含\r\n直接return
+//			return ;
+//		}
+		String outputData=data;//.substring(0, data.indexOf("\n")+1);
 		System.out.println("客户端发送的数据:"+outputData); 
 		ByteBuffer outputBuffer=encode("echo:"+outputData);//返回给客户端的数据
 		while(outputBuffer.hasRemaining()){//buffer里面有数据
@@ -110,6 +113,9 @@ public class NoBlockServer {
 	 */
 	public void receive(SelectionKey key) throws IOException{
 		ByteBuffer buffer=(ByteBuffer) key.attachment();
+//		if(!buffer.hasRemaining()){
+//			return ;
+//		}
 		SocketChannel socketChannel=(SocketChannel) key.channel();
 		ByteBuffer readBuffer=ByteBuffer.allocate(2048);//创建自定义内存的buffer(存放读到的数据)
 		socketChannel.read(readBuffer);
