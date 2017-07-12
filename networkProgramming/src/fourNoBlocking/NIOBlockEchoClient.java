@@ -19,7 +19,7 @@ import java.nio.channels.SocketChannel;
  */
 public class NIOBlockEchoClient {
 	private SocketChannel socketChannel=null;
-	private int port=8000;
+	private int port=10002;
 	public NIOBlockEchoClient()throws IOException{
 		socketChannel=SocketChannel.open();
 		InetAddress ad=InetAddress.getLocalHost();
