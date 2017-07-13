@@ -35,7 +35,8 @@ public class NoBlockServer {
 	
 	public void service() throws IOException{
 		serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);//用给定的选择器注册channel(接收就绪channel)，并返回一个key
-		while(selector.select()>0){
+		while(selector.select()>0){//轮循检查可用的channel个数
+			//每个request会封装一个channel，将所有的channel注册在一个Selector上，然后selector开始不断的轮询每个request的可读状态，如果可读，则直接返回可读状态的channel。
 			Set readyKeys=selector.selectedKeys();//循环遍历已经注册好的通道
 			Iterator it=readyKeys.iterator();
 			while(it.hasNext()){
