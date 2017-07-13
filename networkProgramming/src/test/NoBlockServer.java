@@ -34,9 +34,9 @@ public class NoBlockServer {
 	}
 	
 	public void service() throws IOException{
-		serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);//用给定的选择器注册channel，并返回一个key
+		serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);//用给定的选择器注册channel(接收就绪channel)，并返回一个key
 		while(selector.select()>0){
-			Set readyKeys=selector.selectedKeys();
+			Set readyKeys=selector.selectedKeys();//循环遍历已经注册好的通道
 			Iterator it=readyKeys.iterator();
 			while(it.hasNext()){
 				SelectionKey key=null;
@@ -44,7 +44,7 @@ public class NoBlockServer {
 					key=(SelectionKey)it.next();
 					it.remove();//删除集合中的key
 					if(key.isAcceptable()){//是否可以接收客户端的socket连接
-						ServerSocketChannel ssc=(ServerSocketChannel)key.channel();
+						ServerSocketChannel ssc=(ServerSocketChannel)key.channel();//返回key注册的通道
 						SocketChannel socketChannel=ssc.accept();
 						System.out.println("接收到的客户端连接,来自："+socketChannel.socket().getInetAddress()+":"+socketChannel.socket().getPort());
 						socketChannel.configureBlocking(false);//设置无阻塞模式
@@ -80,9 +80,9 @@ public class NoBlockServer {
 	 * 根据读取的数据处理完返回给客户端
 	 */
 	public void send(SelectionKey key) throws IOException{
-		ByteBuffer buffer=(ByteBuffer) key.attachment();//检索当前的文件
-		SocketChannel socketChannel=(SocketChannel) key.channel();
-		buffer.flip();//把极限(limit)设为位置(position)，把位置设为0
+		ByteBuffer buffer=(ByteBuffer) key.attachment();//获取与当前通道一起使用的buffer
+		SocketChannel socketChannel=(SocketChannel) key.channel();//获取key创建的通道
+		buffer.flip();//把极限(limit)设为位置(position)，把位置设为0,将写模式切换到读模式
 		String data=decode(buffer);//解码客户端发过来的数据
 		if(data.length()==0){//不包含\r\n直接return
 			return ;
@@ -112,11 +112,11 @@ public class NoBlockServer {
 	 * 读取客户端发来的数据
 	 */
 	public void receive(SelectionKey key) throws IOException{
-		ByteBuffer buffer=(ByteBuffer) key.attachment();
-		SocketChannel socketChannel=(SocketChannel) key.channel();
+		ByteBuffer buffer=(ByteBuffer) key.attachment();//获取与当前通道一起使用的buffer
+		SocketChannel socketChannel=(SocketChannel) key.channel();//获取key创建的通道
 		ByteBuffer readBuffer=ByteBuffer.allocate(6000);//创建自定义内存的buffer(存放读到的数据)
-		socketChannel.read(readBuffer);
-		readBuffer.flip();
+		socketChannel.read(readBuffer);//将channel数据放入到readBuffer
+		readBuffer.flip();//limit=position,position=0 将Buffer从写模式切换到读模式。在读模式下，可以读取之前写入到buffer的所有数据，从position开始读，读到limit。
 		buffer.limit(buffer.capacity());//设置buffer的极限为buffer的容量
 		buffer.put(readBuffer);//复制到缓存区
 	}
