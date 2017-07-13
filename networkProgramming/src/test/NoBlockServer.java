@@ -100,6 +100,9 @@ public class NoBlockServer {
 		ByteBuffer temp=encode(outputData);
 		buffer.position(temp.limit());//设置buffer的位置：temp的极限
 		buffer.compact();//删除已经处理的字符串(删除缓冲区内从0到当前位置position的内容)
+		//一旦读完了所有的数据，就需要清空缓冲区，让它可以再次被写入。
+		//clear()方法会清空整个缓冲区。
+		//compact()方法只会清除已经读过的数据，任何未读的数据都被移到缓冲区的起始处，新写入的数据将放到缓冲区未读数据的后面。
 		if(outputData.length()==0){
 			key.cancel();
 			socketChannel.close();
