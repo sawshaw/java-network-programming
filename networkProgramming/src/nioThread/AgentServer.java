@@ -21,7 +21,7 @@ import com.eshore.ismp.common.util.EcrmOrderSplitUtil;
 import com.eshore.ismp.common.util.MbossReceipt;
 import com.eshore.ismp.common.util.ReceiptResult;
 import com.eshore.ismp.hbinterface.service.BizCommonService;
-//多线程
+//读取线程是多线程
 public class AgentServer{
 	private static final Logger logger = LoggerFactory.getLogger(AgentServer2.class);  
 	private Selector selector=null;
