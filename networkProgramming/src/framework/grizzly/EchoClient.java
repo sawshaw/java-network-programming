@@ -1,4 +1,4 @@
-package serverClient;
+package framework.grizzly;
 
 import java.io.BufferedReader;
 import java.io.IOException;

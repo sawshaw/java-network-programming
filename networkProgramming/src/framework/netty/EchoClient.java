@@ -1,4 +1,4 @@
-package serverClient;
+package framework.netty;
 
 import java.io.BufferedReader;
 import java.io.IOException;
