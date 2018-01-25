@@ -19,10 +19,12 @@ public class MinaServer {
     	IoAcceptor acceptor = new NioSocketAcceptor();
 
     	   acceptor.getFilterChain().addLast("logger", new LoggingFilter());
-    	   acceptor.getFilterChain().addLast(
+    	   /*acceptor.getFilterChain().addLast(
     	     "codec",
     	     new ProtocolCodecFilter(new TextLineCodecFactory(Charset
-    	       .forName("GBK"))));
+    	       .forName("GBK"))));*/
+    	   acceptor.getFilterChain().addLast("codec",new ProtocolCodecFilter(new TextLineCodecFactory(Charset
+        	       .forName("GBK"),"\r\n","\r\n")));
 
     	   acceptor.setHandler(new MinaServerHandler());
     	   acceptor.getSessionConfig().setReadBufferSize(2048);

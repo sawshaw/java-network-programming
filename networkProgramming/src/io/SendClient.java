@@ -90,8 +90,8 @@ public class SendClient {
     
     public static void main(String[] args) {
     	String msg="";
-        msg="FFFF76623634010100102700170103IBSS017555\r\n";
-		String x=SendClient.send("127.0.0.1", 8000, msg, 3500);
+        msg="FFFF76623634010100102700170103IBSS017555\n";
+		String x=SendClient.send("127.0.0.1", 10003, msg, 3500);
     	System.out.println("return string:"+x);
 	}
 

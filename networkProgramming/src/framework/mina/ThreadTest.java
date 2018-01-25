@@ -7,13 +7,17 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 
+/**
+ * @author mercy
+ * mina要加上换行才能收到数据\n或者\r\n
+ */
 public class ThreadTest{
 	class SendThread implements Runnable {
 		public SendThread() {
 		}
 
 		public void run() {
-			String f="00000000111111100000000";
+			String f="00000000111111100000000\n";
 			long start=System.currentTimeMillis();
 			System.out.println("length:"+f.length());
 			String d=new ThreadTest().send("127.0.0.1", 10003, f, 3500);
