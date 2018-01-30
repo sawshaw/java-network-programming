@@ -27,6 +27,7 @@ public class SessionHandler extends SessionAdapter{
 		ByteArrayMessage message1 = new  ByteArrayMessage();;  
         message1.setContent(("received message:"+message).getBytes()); 
         session.write(message1);
+
         //中文乱码问题
        /* ByteBuffer bb=message.toByteBuffer()[0];
 		byte[] b = new byte[bb.remaining()];
