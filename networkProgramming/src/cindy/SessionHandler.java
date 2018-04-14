@@ -28,6 +28,16 @@ public class SessionHandler extends SessionAdapter{
         message1.setContent(("received message:"+message).getBytes()); 
         session.write(message1);
 
+        //中文乱码问题
+       /* ByteBuffer bb=message.toByteBuffer()[0];
+		byte[] b = new byte[bb.remaining()];
+		bb.get(b, 0, b.length);
+	    String str=new String(b,"GBK"); 
+		System.out.println("message received:"+str);
+		ByteArrayMessage message1 = new  ByteArrayMessage();;  
+        message1.setContent(("message received:"+str).getBytes("GBK")); 
+        session.write(message1);*/
+
        // ByteArrayMessage message2 = new  ByteArrayMessage();
         //message2.setContent("message2" .getBytes());  
         //session.blockWrite(message2);  
